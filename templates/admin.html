@@ -1,0 +1,535 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <title>Админка</title>
+    <style>
+        .output {
+            display: none; /* Скрываем текст по умолчанию */
+            margin-left: 10px; /* Отступ слева для текста */
+        }
+
+        /* Показать текст при наведении на кнопку */
+        .btn-info:hover + .output {
+            display: inline; /* Показываем текст при наведении на кнопку */
+        }
+
+        .button-container {
+            display: flex; /* Используем Flexbox для выравнивания */
+            align-items: flex-start; /* Центрируем элементы по вертикали */
+
+        .table {
+        margin-left: -20px; /* Установите нужное значение */
+        }
+
+    </style>
+
+</head>
+<body>
+    <div class="flex-shrink-0 p-3" style="width: 400px;">
+        <a href="/" class="d-flex align-items-center pb-3 mb-3 link-body-emphasis text-decoration-none border-bottom">
+            <svg width="50" height="50">
+                <circle cx="20" cy="20" r="15" stroke="black" stroke-width="9" fill="green" />
+            </svg>
+            <span class="fs-4">Автодетали АДМИНКА</span>
+        </a>
+        <span class="fs-4">Таблицы БД:</span>
+        <form method="post">
+            <ul class="list-unstyled ps-0">
+                <li class="mb-1">
+                    <button type="submit" name="table_name" value="clients" class="btn btn-info">clients</button>
+                    <div class="output">Клиенты</div>
+                </li>
+                <li class="mb-1">
+                    <button type="submit" name="table_name" value="clients_orders" class="btn btn-info">clients_orders</button>
+                    <div class="output">Заказы клиентов</div>
+                </li>
+                <li class="mb-1">
+                    <button type="submit" name="table_name" value="delivery_info" class="btn btn-info">delivery_info</button>
+                    <div class="output">Информация о доставке</div>
+                </li>
+                <li class="mb-1">
+                    <button type="submit" name="table_name" value="discounts" class="btn btn-info">discounts</button>
+                    <div class="output">Скидки</div>
+                </li>
+                <li class="mb-1">
+                    <button type="submit" name="table_name" value="num_ordered_parts" class="btn btn-info">num_ordered_parts</button>
+                    <div class="output">Заказанные детали</div>
+                </li>
+                <li class="mb-1">
+                    <button type="submit" name="table_name" value="orders" class="btn btn-info">orders</button>
+                    <div class="output">Информация о заказах</div>
+                </li>
+                <li class="mb-1">
+                    <button type="submit" name="table_name" value="parts" class="btn btn-info">parts</button>
+                    <div class="output">Информация о деталях</div>
+                </li>
+                <li class="mb-1">
+                    <button type="submit" name="table_name" value="providers" class="btn btn-info">providers</button>
+                    <div class="output">Информация о поставщиках</div>
+                </li>
+            </ul>
+        </form>
+    </div>
+
+    <div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            {% if clients %}
+            <h2 class="text-center">Список клиентов (clients)</h2>
+            <form method="POST" action="/update_clients">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>client_id</th>
+                            <th>full_name</th>
+                            <th>phone_number</th>
+                            <th>email</th>
+                            <th>delivery_address</th>
+                            <th>client_status</th>
+                            <th>status_level</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for client in clients %}
+                        <tr>
+                            <td>
+                                <!-- Кнопка удаления -->
+                                <form method="POST" action="/delete_client" style="display:inline;">
+                                    <input type="hidden" name="client_id" value="{{ client[0] }}">
+                                    <button type="submit" class="btn btn-light" onclick="return confirm('Вы уверены, что хотите удалить клиента с id {{ client[0] }} - {{client[1]}}?');">
+                                        <img src="static/img/icons8-минус-30.png" alt="Удалить" style="width: 20px; height: 20px;">
+                                    </button>
+                                </form>
+                            </td>
+                            <td>{{ client[0] }}</td>
+                            <td><input type="text" name="full_name_{{ client[0] }}" value="{{ client[1] }}"></td>
+                            <td><input type="text" name="phone_number_{{ client[0] }}" value="{{ client[2] }}"></td>
+                            <td><input type="text" name="email_{{ client[0] }}" value="{{ client[3] }}"></td>
+                            <td><input type="text" name="delivery_address_{{ client[0] }}" value="{{ client[4] }}"></td>
+                            <td>
+                                <select name="client_status_{{ client[0] }}">
+                                    <option value="Обычный" {% if client[5] == "Обычный" %} selected {% endif %}>
+                                        Обычный
+                                    </option>
+                                    <option value="Платина" {% if client[5] == "Платина" %} selected {% endif %}>
+                                        Платина
+                                    </option>
+                                    <option value="Золото" {% if client[5] == "Золото" %} selected {% endif %}>
+                                        Золото
+                                    </option>
+                                    <option value="Рубин" {% if client[5] == "Рубин" %} selected {% endif %}>
+                                        Рубин
+                                    </option>
+                                </select>
+                            </td>
+                            <td>
+                                <select name="status_level_{{ client[0] }}">
+                                    <option value="Стандарт" {% if client[6] == "Стандарт" %} selected {% endif %}>
+                                        Стандарт
+                                    </option>
+                                    <option value="VIP" {% if client[6] == "VIP" %} selected {% endif %}>
+                                        VIP
+                                    </option>
+                                </select>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        <!-- Новая строка для добавления клиента -->
+                        <tr id="new-client-row">
+                            <td></td>
+                            <td></td>
+                            <td><input type="text" name="new_full_name" placeholder="Введите полное имя"></td>
+                            <td><input type="text" name="new_phone_number" placeholder="Введите номер телефона"></td>
+                            <td><input type="text" name="new_email" placeholder="Введите email"></td>
+                            <td><input type="text" name="new_delivery_address" placeholder="Введите адрес доставки"></td>
+                            <td><input type="text" name="new_client_status" placeholder="Введите статус клиента"></td>
+                            <td><input type="text" name="new_status_level" placeholder="Введите уровень статуса"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- Кнопка для подтверждения изменений -->
+                <button type="submit" class="btn btn-success">Принять изменения</button>
+                <!-- Кнопка для добавления нового клиента -->
+                <button type="button" id="add-client-btn" class="btn btn-light"><img src="static/img/icons8-плюс-минус-2-50.png" alt="Submit" style="width: 40px; height: 40px;"></button>
+            </form>
+            {% endif %}
+        </div>
+    </div>
+    </div>
+
+    <script>
+        // JavaScript для обработки нажатия кнопки "Добавить клиента"
+        document.getElementById('add-client-btn').addEventListener('click', function() {
+            const newRow = document.getElementById('new-client-row');
+            newRow.style.display = newRow.style.display === 'none' ? 'table-row' : 'none';
+        });
+    </script>
+
+    <style>
+        #new-client-row {
+            display: none; /* Скрываем строку до нажатия кнопки */
+        }
+    </style>
+
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                {% if delivery_info %}
+                    <h2 class="text-center">Информация о доставке (delivery_info)</h2>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>delivery_track_num</th>
+                                <th>shipping_date</th>
+                                <th>estimated_delivery_date</th>
+                                <th>delivery_method</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for delivery_inf in delivery_info %}
+                            <tr>
+                                <td>{{ delivery_inf[0] }}</td>
+                                <td>{{ delivery_inf[1] }}</td>
+                                <td>{{ delivery_inf[2] }}</td>
+                                <td>{{ delivery_inf[3] }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                {% if clients_orders %}
+                    <h2 class="text-center">Заказы клиентов (clients_orders)</h2>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>order_id</th>
+                                <th>client_id</th>
+                                <th>provider_id</th>
+                                <th>part_id</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for clients_order in clients_orders %}
+                            <tr>
+                                <td>{{ clients_order[0] }}</td>
+                                <td>{{ clients_order[1] }}</td>
+                                <td>{{ clients_order[2] }}</td>
+                                <td>{{ clients_order[3] }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                {% if discounts %}
+                    <h2 class="text-center">Скидки (discounts)</h2>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>client_status</th>
+                                <th>status_level</th>
+                                <th>discount_size</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for discount in discounts %}
+                            <tr>
+                                <td>{{ discount[0] }}</td>
+                                <td>{{ discount[1] }}</td>
+                                <td>{{ discount[2] }}%</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                {% if num_ordered_parts %}
+                    <h2 class="text-center">Количество заказанных деталей (num_ordered_parts)</h2>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>order_id</th>
+                                <th>provider_id</th>
+                                <th>part_id</th>
+                                <th>num_details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for num_ordered_part in num_ordered_parts %}
+                            <tr>
+                                <td>{{ num_ordered_part[0] }}</td>
+                                <td>{{ num_ordered_part[1] }}</td>
+                                <td>{{ num_ordered_part[2] }}</td>
+                                <td>{{ num_ordered_part[3] }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                {% if orders %}
+                    <h2 class="text-center">Заказы (orders)</h2>
+                    <form method="POST" action="/update_orders">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>order_id</th>
+                                    <th>order_date</th>
+                                    <th>order_status</th>
+                                    <th>order_comments</th>
+                                    <th>pay_method</th>
+                                    <th>pay_date</th>
+                                    <th>delivery_track_num</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for order in orders %}
+                                <tr>
+                                    <td>
+                                        {% if order[2] == "Отменен" %}
+                                            <!-- Кнопка удаления -->
+                                            <form method="POST" action="/delete_order" style="display:inline;">
+                                                <input type="hidden" name="order_id" value="{{ order[0] }}">
+                                                <button type="submit" class="btn btn-light" onclick="return confirm('Вы уверены, что хотите удалить заказ с id {{ order[0] }}?');">
+                                                    <img src="static/img/icons8-минус-30.png" alt="Удалить" style="width: 20px; height: 20px;">
+                                                </button>
+                                            </form>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ order[0] }}</td>
+                                    <td>{{ order[1] }}</td>
+                                    <td>
+                                        <select name="order_status_{{ order[0] }}">
+                                            <option value="В обработке" {% if order[2] == "В обработке" %} selected {% endif %}>
+                                                В обработке
+                                            </option>
+                                            <option value="Отправлен" {% if order[2] == "Отправлен" %} selected {% endif %}>
+                                                Отправлен
+                                            </option>
+                                            <option value="Доставлен" {% if order[2] == "Доставлен" %} selected {% endif %}>
+                                               Доставлен
+                                            </option>
+                                            <option value="Отменен" {% if order[2] == "Отменен" %} selected {% endif %}>
+                                               Отменен
+                                            </option>
+                                        </select>
+                                    </td>
+                                    <td>{{ order[3] }}</td>
+                                    <td>{{ order[4] }}</td>
+                                    <td>{{ order[5] }}</td>
+                                    <td><input type="text" name="delivery_track_num_{{ order[0] }}" value="{{ order[6] }}"></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        <!-- Кнопка для подтверждения изменений -->
+                        <button type="submit" class="btn btn-success">Принять изменения</button>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-4">
+    <div class="row" style="display: flex; justify-content: flex-start;">
+        <div class="col-md-8">
+            {% if parts %}
+            <h2 class="text-center">Детали (parts)</h2>
+            <form method="POST" action="/update_parts">
+                <table class="table table-striped" style="margin-left: -150px;">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>part_id</th>
+                            <th>part_name</th>
+                            <th>country_prod</th>
+                            <th>producer</th>
+                            <th>price</th>
+                            <th>brand_name</th>
+                            <th>model_name</th>
+                            <th>year</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for part in parts %}
+                        <tr>
+                            <td>
+                                <!-- Кнопка удаления -->
+                                <form method="POST" action="/delete_part" style="display:inline;">
+                                    <input type="hidden" name="part_id" value="{{ part[0] }}">
+                                    <button type="submit" class="btn btn-light" onclick="return confirm('Вы уверены, что хотите удалить деталь с id {{ part[0] }} - {{part[1]}}?');">
+                                        <img src="static/img/icons8-минус-30.png" alt="Удалить" style="width: 20px; height: 20px;">
+                                    </button>
+                                </form>
+                            </td>
+                            <td>{{ part[0] }}</td>
+                            <td><input type="text" name="part_name_{{ part[0] }}" value="{{ part[1] }}"></td>
+                            <td><input type="text" name="country_prod_{{ part[0] }}" value="{{ part[2] }}"></td>
+                            <td><input type="text" name="producer_{{ part[0] }}" value="{{ part[3] }}"></td>
+                            <td><input type="text" name="price_{{ part[0] }}" value="{{ part[4] }}"></td>
+                            <td><input type="text" name="brand_name_{{ part[0] }}" value="{{ part[5] }}"></td>
+                            <td><input type="text" name="model_name_{{ part[0] }}" value="{{ part[6] }}"></td>
+                            <td><input type="text" name="year_{{ part[0] }}" value="{{ part[7] }}"></td>
+                        </tr>
+                        {% endfor %}
+                        <!-- Новая строка для добавления клиента -->
+                        <tr id="new-part-row">
+                            <td></td>
+                            <td></td>
+                            <td><input type="text" name="new_part_name" placeholder="Введите название детали"></td>
+                            <td><input type="text" name="new_country_prod" placeholder="Введите страну производства"></td>
+                            <td><input type="text" name="new_producer" placeholder="Введите производителя"></td>
+                            <td><input type="text" name="new_price" placeholder="Введите цену в руб."></td>
+                            <td><input type="text" name="new_brand_name" placeholder="Введите название бренда"></td>
+                            <td><input type="text" name="new_model_name" placeholder="Введите название модели"></td>
+                            <td><input type="text" name="new_year" placeholder="Введите год модели"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- Кнопка для подтверждения изменений -->
+                <button type="submit" class="btn btn-success">Принять изменения</button>
+                <!-- Кнопка для добавления новой детали -->
+                <button type="button" id="add-part-btn" class="btn btn-light"><img src="static/img/icons8-плюс-минус-2-50.png" alt="Submit" style="width: 40px; height: 40px;"></button>
+
+            </form>
+            {% endif %}
+        </div>
+    </div>
+    </div>
+
+    <div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            {% if providers %}
+            <h2 class="text-center">Список поставщиков (providers)</h2>
+            <form method="POST" action="/update_providers">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>provider_id</th>
+                            <th>provider_name</th>
+                            <th>contact_person</th>
+                            <th>phone_number</th>
+                            <th>email</th>
+                            <th>address</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for provider in providers %}
+                        <tr>
+                            <td>
+                                <!-- Кнопка удаления -->
+                                <form method="POST" action="/delete_provider" style="display:inline;">
+                                    <input type="hidden" name="part_id" value="{{ provider[0] }}">
+                                    <button type="submit" class="btn btn-light" onclick="return confirm('Вы уверены, что хотите удалить поставщика с id {{ provider[0] }} - {{ provider[1] }}?');">
+                                        <img src="static/img/icons8-минус-30.png" alt="Удалить" style="width: 20px; height: 20px;">
+                                    </button>
+                                </form>
+                            </td>
+                            <td>{{ provider[0] }}</td>
+                            <td><input type="text" name="provider_name_{{ provider[0] }}" value="{{ provider[1] }}"></td>
+                            <td><input type="text" name="contact_person_{{ provider[0] }}" value="{{ provider[2] }}"></td>
+                            <td><input type="text" name="phone_number_{{ provider[0] }}" value="{{ provider[3] }}"></td>
+                            <td><input type="text" name="email_{{ provider[0] }}" value="{{ provider[4] }}"></td>
+                            <td><input type="text" name="address_{{ provider[0] }}" value="{{ provider[5] }}"></td>
+                        </tr>
+                        {% endfor %}
+                        <!-- Новая строка для добавления клиента -->
+                        <tr id="new-provider-row">
+                            <td></td>
+                            <td></td>
+                            <td><input type="text" name="new_provider_name" placeholder="Введите название поставщика"></td>
+                            <td><input type="text" name="new_full_name" placeholder="Введите имя поставщика"></td>
+                            <td><input type="text" name="new_phone_number" placeholder="Введите телефон"></td>
+                            <td><input type="text" name="new_email" placeholder="Введите email"></td>
+                            <td><input type="text" name="new_address" placeholder="Введите адрес"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- Кнопка для подтверждения изменений -->
+                <button type="submit" class="btn btn-success">Принять изменения</button>
+                <!-- Кнопка для добавления нового клиента -->
+                <button type="button" id="add-provider-btn" class="btn btn-light"><img src="static/img/icons8-плюс-минус-2-50.png" alt="Submit" style="width: 40px; height: 40px;"></button>
+
+            </form>
+            {% endif %}
+        </div>
+    </div>
+    </div>
+<script>
+        // JavaScript для обработки нажатия кнопки "Добавить поставщика"
+        document.getElementById('add-provider-btn').addEventListener('click', function() {
+            const newRow = document.getElementById('new-provider-row');
+            newRow.style.display = newRow.style.display === 'none' ? 'table-row' : 'none';
+        });
+</script>
+
+<style>
+        #new-provider-row {
+            display: none; /* Скрываем строку до нажатия кнопки */
+        }
+</style>
+
+<script>
+        // JavaScript для обработки нажатия кнопки "Добавить деталь"
+        document.getElementById('add-part-btn').addEventListener('click', function() {
+            const newRow = document.getElementById('new-part-row');
+            newRow.style.display = newRow.style.display === 'none' ? 'table-row' : 'none';
+        });
+</script>
+
+<style>
+        #new-part-row {
+            display: none; /* Скрываем строку до нажатия кнопки */
+        }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+        function showTable(tableId) {
+            // Скрываем все таблицы
+            const tables = document.querySelectorAll('.table');
+            tables.forEach(table => {
+                table.style.display = 'none';
+            });
+
+            // Показываем только выбранную таблицу
+            const selectedTable = document.getElementById(tableId);
+            if (selectedTable) {
+                selectedTable.style.display = 'table'; // Отображаем выбранную таблицу
+            }
+        }
+    </script>
+</body>
+</html>

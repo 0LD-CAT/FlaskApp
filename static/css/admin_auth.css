@@ -1,0 +1,50 @@
+body {
+    background-color: #000; /* Черный фон */
+    color: #00ff00; /* Зеленый текст */
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    width: 300px;
+    margin: 100px auto;
+    padding: 20px;
+    background-color: #1a1a1a; /* Темный фон для контейнера */
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+}
+
+h2 {
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #00ff00; /* Зеленая рамка */
+    border-radius: 5px;
+    background-color: #333; /* Темный фон для полей ввода */
+    color: #00ff00; /* Зеленый текст в полях ввода */
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #00ff00; /* Зеленая кнопка */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #008000; /* Более темный зеленый при наведении */
+}

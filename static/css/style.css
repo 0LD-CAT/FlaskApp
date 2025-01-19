@@ -1,0 +1,233 @@
+.mainPic {
+    position: absolute;
+    overflow: hidden;
+    width: 1495px;
+    height: 310px;
+    left: 0px;
+    top: 90px;
+    filter: brightness(30%)
+}
+.nav {
+    display: flex;
+    justify-content: center; /* Для центрирования */
+    /* Или используйте justify-content: flex-end; для перемещения вправо */
+}
+
+.nav-link {
+    margin-left: flex-end; /* Для перемещения вправо, если используется центрирование */
+}
+
+.flash {
+    padding: 10px;
+}
+.flash.success {
+    border: 1px solid #21DB56;
+    background: #AEFFC5;
+}
+.flash.error {
+    border: 5px solid #FF4343;
+    background: #007CE2;
+}
+
+.picText{
+    position:absolute;
+    top:220px;
+    left:420px;
+    color:white;
+    font-size:20px;
+}
+.catalog {
+    background: #007CE2;
+    position: absolute;
+    width: 120px;
+    top: 80px;
+    left: 240px;
+    color: white;
+    font-size: 20px;
+    border: 15px solid #007CE2;
+    border-radius: 124px 124px;
+    text-align:center;
+}
+.personalCab {
+    position: absolute;
+    color: #000f;
+    left: 990px;
+    top: -200px;
+}
+
+.adminAut {
+    position: absolute;
+    color: #000f;
+    left: 850px;
+    top: -200px;
+}
+
+.oblakoOnas {
+    position: absolute;
+    top: 200px;
+    right: 715px;
+    color: #ffffff;
+    font-size: 25px;
+    width: 180px;
+    height: 180px;
+    background: #007CE2;
+    border: 20px solid #007CE2;
+    border-radius: 28px 28px;
+    text-align: left;
+}
+.oblakoOtsovs {
+    position: absolute;
+    top: -20px;
+    right: -490px;
+    color: #ffffff;
+    font-size: 25px;
+    width: 180px;
+    height: 180px;
+    background: #007CE2;
+    border: 20px solid #007CE2;
+    border-radius: 28px 28px;
+    text-align: left;
+}
+.oblakoContacts {
+    position: absolute;
+    top: -20px;
+    right: -472px;
+    color: #ffffff;
+    font-size: 20px;
+    width: 180px;
+    height: 180px;
+    background: #007CE2;
+    border: 20px solid #007CE2;
+    border-radius: 28px 28px;
+    text-align: left;
+}
+.VKicon{
+    width: 60px;
+}
+.Telegramicon{
+    width: 60px;
+}
+.logo{
+    position: page;
+    top: -13px;
+    width: 90px;
+}
+.form-field{
+    position:absolute;
+    top:200px;
+    left:600px;
+    width:290px;
+    height:350px;
+    border:1px solid #000000;
+}
+.input {
+    display: block;
+    width: 100%;
+    padding: 8px 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    font-family: inherit;
+    font-size: 16px;
+}
+.button {
+    background: #007CE2;
+    color: #ffffff;
+    border: 3px solid #007CE2;
+    border-radius: 124px 124px;
+    width: 150px;
+    height: 25px;
+    text-align: center;
+}
+.reg {
+    background: #ffffff;
+    color: #007CE2;
+    border: 3px solid #007CE2;
+    border-radius: 124px 124px;
+    text-align: center;
+    width: 150px;
+    height: 20px;
+}
+.cont {
+    display: flex;
+    justify-content: space-around;
+}
+
+.product-list {
+    display: flex;
+    flex-wrap: wrap
+}
+
+.button1 {
+    inline-size: 100%;
+    padding: 0.5lh 1.5lh;
+    font: inherit;
+    color: currentColor;
+    background-color: #f28482;
+    border: none;
+    cursor: pointer;
+}
+
+    .button:hover,
+    .button:focus-visible {
+        background-color: #f5cac3;
+    }
+
+.menu {
+    position: relative;
+    display: grid;
+    margin-block-start: 0.5lh;
+    background-color: #f28482;
+    overflow: hidden;
+    line-height: 0;
+    color: transparent;
+    transition: line-height 0.5s, color 0.5s;
+}
+
+.menu-item {
+    overflow: hidden;
+}
+
+.menu-link {
+    display: block;
+    padding: 0.5lh 80px;
+}
+
+    .menu-link:hover,
+    .menu-link:focus-visible {
+        background-color: #f5cac3;
+    }
+
+.button.active ~ .menu {
+    line-height: 1.2;
+    color: currentColor;
+}
+.iconCatalog {
+    width: 200px;
+    height: 170px;
+    border: 2px solid black;
+}
+
+.filters {
+    width: 25%;
+    padding: 20px;
+    border-right: 1px solid #ccc;
+}
+
+.products {
+    width: 75%;
+    padding: 20px;
+}
+
+.product {
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+.pagination {
+    margin-top: 20px;
+}
+
+.pagination button {
+        margin-right: 5px;
+}

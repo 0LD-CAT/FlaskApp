@@ -1,0 +1,95 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<link rel="stylesheet" href="{{url_for ('static', filename='css/style.css')}}">
+<head>
+    <title></title>
+</head>
+<body>
+    <a href="/"><img class="logo" src="static/img/logo.png" /></a><br />
+    <div style="position: absolute; right: 20px; top: 20px;">
+        <form method="POST" action="/clear_cart" style="display:inline;">
+            <button type="submit" class="clear-cart-button" style="padding: 10px; background-color: #FF5733; color: white; border: none; border-radius: 5px; cursor: pointer;">Очистить корзину</button>
+        </form>
+        <form method="GET" action="/cart" style="display:inline;">
+            <button type="submit" class="cart-button" style="padding: 10px; background-color: #28A745; color: white; border: none; border-radius: 5px; cursor: pointer;">Корзина: {{ total_cost }} руб.</button>
+        </form>
+    </div>
+    <h1><b>Каталог Автозапчастей</b></h1><br />
+
+    <form class="product-list" action="" method="post">
+        <a style="text-decoration: none;" href="/catalog/Масляный фильтр">
+            <img class="iconCatalog" src="static/img/Mfilter.png" />
+            <div style="text-align: center">Масляные Фильтры</div>
+        </a>
+
+        <a style="text-decoration: none;position: relative" href="/catalog/Фара передняя">
+            <img class="iconCatalog" src="static/img/Fars.png" />
+            <div style="text-align: center">Фары</div>
+        </a>
+
+        <a style="text-decoration: none;" href="/catalog/Тормозные колодки">
+            <img class="iconCatalog" src="static/img/tormoza.png" />
+            <div style="text-align: center">Тормозные колодки</div>
+        </a>
+
+        <a style="text-decoration: none;" href="/catalog/Амортизатор">
+            <img class="iconCatalog" src="static/img/Amort.png" />
+            <div style="text-align: center">Амортизаторы</div>
+        </a>
+
+        <a style="text-decoration: none;" href="/catalog/Свеча зажигания">
+            <img class="iconCatalog" src="static/img/Svechi.png" />
+            <div style="text-align: center">Свечи зажигания</div>
+        </a>
+
+        <a style="text-decoration: none;" href="/catalog/Радиатор охлаждения">
+            <img class="iconCatalog" src="static/img/Radiator.png" />
+            <div style="text-align: center">Радиаторы охлаждения</div>
+        </a>
+
+        <a style="text-decoration: none;" href="/catalog/Бампер передний">
+            <img class="iconCatalog" src="static/img/Bamper.png" />
+            <div style="text-align: center">Бампера передние</div>
+        </a>
+
+        <a style="text-decoration: none;" href="/catalog/Корпус зеркала">
+            <img class="iconCatalog" src="static/img/Zerkala.png" />
+            <div style="text-align: center">Корпуса зеркал</div>
+        </a>
+
+        <a style="text-decoration: none;" href="/catalog/Топливный насос">
+            <img class="iconCatalog" src="static/img/TopNas.png" />
+            <div style="text-align: center">Топливные насосы</div>
+        </a>
+
+        <a style="text-decoration: none;" href="/catalog/Крышка багажника">
+            <img class="iconCatalog" src="static/img/bagajnik.png" />
+            <div style="text-align: center">Крышки багажника</div>
+        </a>
+
+        <a style="text-decoration: none;" href="/catalog/Датчик температуры охлаждающей жидкости">
+            <img class="iconCatalog" src="static/img/Datchik.png" />
+            <div style="text-align: center">Датчики температуры <br /> охлаждающей жидкости</div>
+        </a>
+
+        <a style="text-decoration: none;" href="/catalog/Салонный фильтр">
+            <img class="iconCatalog" src="static/img/SalonFil.png" />
+            <div style="text-align: center">Салонные фильтры</div>
+        </a>
+
+        <a style="text-decoration: none;" href="/catalog/Тормозные диски">
+            <img class="iconCatalog" src="static/img/TormozDiski.png" />
+            <div style="text-align: center">Тормозные диски</div>
+        </a>
+
+        <a style="text-decoration: none;" href="/catalog/Топливный фильтр">
+            <img class="iconCatalog" src="static/img/ToplivFil.png" />
+            <div style="text-align: center">Топливные фильтры</div>
+        </a>
+
+        <a style="text-decoration: none;" href="/catalog/Воздушный фильтр">
+            <img class="iconCatalog" src="static/img/VozduxFil.png" />
+            <div style="text-align: center">Воздушные фильтры</div>
+        </a>
+
+</body>
+</html>

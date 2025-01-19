@@ -1,0 +1,76 @@
+<body>
+    <a href="/"><img class="logo" src="static/img/logo.png" /></a>
+    <a style="text-decoration: none;" href='/login' class="personalCab">Личный кабинет</a>
+    <div style="position: absolute; right: 20px; top: 20px;">
+        <a href="/catalog" class="back-button" style="padding: 10px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px;">Назад</a>
+        <form method="POST" action="/clear_cart" style="display:inline;">
+            <button type="submit" class="clear-cart-button" style="padding: 10px; background-color: #FF5733; color: white; border: none; border-radius: 5px; cursor: pointer;">Очистить корзину</button>
+        </form>
+        <form method="GET" action="/cart" style="display:inline;">
+            <button type="submit" class="cart-button" style="padding: 10px; background-color: #28A745; color: white; border: none; border-radius: 5px; cursor: pointer;">Корзина: {{ total_cost }} руб.</button>
+        </form>
+    </div>
+    <h1>Детали: {{ part_name }}</h1>
+
+    <form method="GET" action="">
+        <label for="brand_name">Бренд:</label>
+        <select name="brand_name" id="brand_name">
+            <option value="">Все</option>
+            {% for brand in brands %}
+                <option value="{{ brand }}">{{ brand }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="model_name">Модель:</label>
+        <select name="model_name" id="model_name">
+            <option value="">Все</option>
+            {% for model in models %}
+                <option value="{{ model }}">{{ model }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="year">Год:</label>
+        <select name="year" id="year">
+            <option value="">Все</option>
+            {% for year in years %}
+                <option value="{{ year }}">{{ year }}</option>
+            {% endfor %}
+        </select>
+
+        <button type="submit">Фильтровать</button>
+    </form>
+
+    {% if products %}
+        <ul>
+            {% for product in products %}
+
+                <li>
+                    <h2>{{ product.part_name }}</h2>
+                    <p>Производитель: {{ product.producer }}</p>
+                    <p>Страна производства: {{ product.country_prod }}</p>
+                    <p>Цена: {{ product.price }} руб.</p>
+                    <p>Бренд: {{ product.brand_name }}</p>
+                    <p>Модель: {{ product.model_name }}</p>
+                    <p>Год: {{ product.year }}</p>
+
+                    <form method="POST">
+                        <input type="hidden" name="product_id" value="{{ product.id }}">
+                        <input type="hidden" name="part_name" value="{{ product.part_name }}">
+                        <input type="hidden" name="price" value="{{ product.price }}">
+                        <input type="hidden" name="brand_name" value="{{ product.brand_name }}">
+                        <input type="hidden" name="model_name" value="{{ product.model_name }}">
+                        <input type="hidden" name="year" value="{{ product.year }}">
+
+                        <label for="quantity">Количество:</label>
+                        <input type="number" name="quantity" value="1" min="1" max="10">
+
+                        <button type="submit">Добавить в корзину</button>
+                    </form>
+                </li>
+                <hr>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Детали не найдены.</p>
+    {% endif %}
+</body>

@@ -1,0 +1,75 @@
+<body>
+    <a href="/catalog" class="back-button" style="padding: 10px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px;">Назад</a>
+    <h1>Корзина</h1>
+    <form method="POST" id="order-form" action="/submit_order">
+    {% if cart_items %}
+        <ul>
+            {% for item in cart_items %}
+                <li>
+                    Деталь: {{ item.part_name }} для {{ item.brand_name }} {{ item.model_name }} {{ item.year }} года<br>
+                    Количество: {{ item.quantity }}<br>
+                    Цена за единицу: {{ item.price }} руб.<br>
+                    Общая стоимость: {{ item.price * item.quantity }} руб.
+                    <input type="hidden" name="items[]" value="{{ item.part_name }}_{{ item.brand_name }}_{{ item.model_name }}_{{ item.year }}_{{ item.quantity }}_{{ item.price }}">
+                </li>
+                <hr>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Корзина пуста.</p>
+    {% endif %}
+
+    <h2>Выберите поставщика, тип доставки и метод оплаты для оформления заказа</h2
+        <label for="supplier">Поставщик:</label>
+        <select id="supplier" name="supplier">
+            <option value="">Выберите поставщика</option>
+            {% for provider in providers %}
+                 <option value="{{ provider }}">{{ provider }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <label for="delivery">Тип доставки:</label>
+        <select id="delivery" name="delivery">
+            <option value="">Выберите тип доставки</option>
+            <option value="Стандартная доставка">Стандартная доставка</option>
+            <option value="Срочная доставка">Срочная доставка</option>
+        </select><br><br>
+
+        <label for="payment">Метод оплаты:</label>
+        <select id="payment" name="payment">
+            <option value="">Выберите метод оплаты</option>
+            <option value="Банковская карта">Банковская карта</option>
+            <option value="Наличные">Наличные</option>
+        </select><br><br>
+
+        <h2>Итого: {{ total_cost }} руб.</h2>
+        <button type="submit" id="submit-order" disabled>Оформить заказ</button>
+    </form>
+
+    <script>
+        const supplierSelect = document.getElementById('supplier');
+        const deliverySelect = document.getElementById('delivery');
+        const paymentSelect = document.getElementById('payment');
+        const submitButton = document.getElementById('submit-order');
+
+        // Получаем общую стоимость из HTML
+        const totalCost = parseFloat("{{ total_cost }}");
+
+        function checkSelections() {
+            if (supplierSelect.value && deliverySelect.value && paymentSelect.value && totalCost > 0) {
+                submitButton.disabled = false;
+            } else {
+                submitButton.disabled = true;
+            }
+        }
+
+        supplierSelect.addEventListener('change', checkSelections);
+        deliverySelect.addEventListener('change', checkSelections);
+        paymentSelect.addEventListener('change', checkSelections);
+    </script>
+
+    <form method="POST" action="/clear_cart">
+        <button type="submit">Очистить корзину</button>
+    </form>
+
+</body>

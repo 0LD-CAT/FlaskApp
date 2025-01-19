@@ -1,0 +1,20 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<link rel="stylesheet" href="{{url_for ('static', filename='css/style.css')}}">
+<head>
+    <title>Вход</title>
+</head>
+<body>
+    <a href="/"><img class="logo" src="static/img/logo.png" /></a>
+    <form class="form-field" action="" method="post">
+        {% for cat, msg in get_flashed_messages(True) %}
+        <div class="flash {{cat}}">{{msg}}</div>
+        {% endfor %}
+        <input class="input" type="tel" name="phone" placeholder="Ваш телефон"><br />
+        <input class="input" type="text" name="code" placeholder="Код"><br />
+       <div class="cont">
+        <button class="button">Войти</button>
+        <a style="text-decoration: none;" href="/reg"><div class="reg">Зарегестрироваться</div></a>
+       </div>
+    </form>
+</body>
+</html>

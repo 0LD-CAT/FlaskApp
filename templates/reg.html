@@ -1,0 +1,33 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<link rel="stylesheet" href="{{url_for ('static', filename='css/style.css')}}">
+<head>
+    <title>Регистрация</title>
+</head>
+<body>
+    <a href="/"><img class="logo" src="static/img/logo.png" /></a>
+    <div class="cont">
+        <form class="form-field" action="" method="post">
+            {% for cat, msg in get_flashed_messages(True) %}
+            <div class="flash {{cat}}">{{msg}}</div>
+            {% endfor %}
+            <input class="input" type="text" name="fio" placeholder="Ваше Фамилия Имя"><br />
+            <input class="input" type="email" name="email" placeholder="Ваш e-mail"><br />
+            <input class="input" type="tel" name="phone" placeholder="Ваш телефон"><br />
+            <p><strong>Выберете место доставки</strong></p>
+            <select name="address">
+                <option selected value="Не выбрано">Не выбрано</option>
+                <option value="г. Москва, ул. Ленина, д. 10">
+                    г. Москва, ул. Ленина, д. 10
+                </option>
+                <option value="г. Санкт-Петербург, ул. Пушкина, д. 5">
+                    г. Санкт-Петербург, ул. Пушкина, д. 5
+                </option>
+                <option value="г. Екатеринбург, ул.Пушкина, д12">
+                    г. Екатеринбург, ул.Пушкина, д12
+                </option>
+            </select><br /><br />
+            <button class="button">Зарегестрироваться</button><br /><br />
+            <a style="text-decoration: none;" href="/login"><div class="reg">Войти</div></a>
+    </div>
+</body>
+</html>
